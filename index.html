@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Undangan Pernikahan Sayid & AA</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--maroon:#5a0f1a;--maroon-d:#3a0810;--maroon-l:#7a1626;--gold:#d4af37;--gold-l:#f1d98a;--cream:#f6e9c8}
+html{scroll-behavior:smooth}
+body{font-family:'Cormorant Garamond',serif;font-size:19px;background:var(--maroon-d);color:var(--cream)}
+.display{font-family:'Cinzel',serif;letter-spacing:.06em}
+.gold-text{background:linear-gradient(90deg,#b8902a,#f1d98a,#b8902a);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* motif songket */
+.songket{background-color:var(--maroon);background-image:
+ linear-gradient(45deg,rgba(212,175,55,.13) 25%,transparent 25%,transparent 75%,rgba(212,175,55,.13) 75%),
+ linear-gradient(45deg,rgba(212,175,55,.13) 25%,transparent 25%,transparent 75%,rgba(212,175,55,.13) 75%);
+ background-size:36px 36px;background-position:0 0,18px 18px}
+.band{height:14px;background:repeating-linear-gradient(90deg,var(--gold) 0 10px,transparent 10px 14px);opacity:.8;
+ -webkit-mask:linear-gradient(#000 0 0);}
+.frame{border:1px solid var(--gold);outline:1px solid rgba(212,175,55,.35);outline-offset:6px;background:rgba(58,8,16,.72)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.4rem;border:1px solid var(--gold);color:var(--gold-l);
+ font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.08em;transition:.3s;cursor:pointer}
+.btn:hover,.btn.solid{background:var(--gold);color:var(--maroon-d)}
+.btn.solid:hover{background:var(--gold-l)}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.reveal.show{opacity:1;transform:none}
+body.locked{overflow:hidden}
+#cover{transition:transform 1.2s cubic-bezier(.77,0,.18,1)}
+#cover.open{transform:translateY(-100%)}
+.gjg{animation:sway 6s ease-in-out infinite;transform-origin:bottom}
+@keyframes sway{50%{transform:scale(1.02)}}
+input,textarea,select{background:rgba(0,0,0,.25);border:1px solid rgba(212,175,55,.5);color:var(--cream);padding:.7rem .9rem;width:100%;outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--gold-l)}
+option{color:#000}
+.gal img{transition:transform .7s}.gal:hover img{transform:scale(1.07)}
+.toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);opacity:0;transition:.4s;background:var(--gold);color:var(--maroon-d);padding:.6rem 1.2rem;z-index:80;pointer-events:none;font-family:'Cinzel',serif;font-size:.8rem}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.gjg{animation:none}#cover{transition:none}}
+</style>
+</head>
+<body class="locked">
+
+<!-- Gonjong (atap rumah gadang) reusable -->
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="gonjong" viewBox="0 0 400 160">
+ <g fill="none" stroke="#d4af37" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M10 150 C60 140 70 90 90 30 C95 60 120 100 150 128 C165 100 175 60 200 8 C225 60 235 100 250 128 C280 100 305 60 310 30 C330 90 340 140 390 150"/>
+  <path d="M30 150 H370"/><path d="M60 150 V120 M140 150 V132 M200 150 V120 M260 150 V132 M340 150 V120" stroke-width="2"/>
+  <path d="M170 150 q30 -26 60 0" stroke-width="2"/>
+ </g></symbol></defs></svg>
+
+<!-- COVER -->
+<section id="cover" class="fixed inset-0 z-[60] songket flex flex-col items-center justify-center text-center px-6">
+  <div class="absolute top-0 inset-x-0 band"></div><div class="absolute bottom-0 inset-x-0 band"></div>
+  <div class="frame max-w-md w-full px-6 py-10">
+    <svg class="gjg w-64 mx-auto mb-4"><use href="#gonjong"/></svg>
+    <p class="text-lg italic">Undangan Pernikahan</p>
+    <h1 class="display gold-text text-4xl sm:text-5xl font-bold my-4">Sayid<br><span class="text-2xl">&amp;</span><br>AA</h1>
+    <p class="display text-sm">Minggu, 15 November 2026</p>
+    <div class="my-6 text-sm">
+      <p class="italic">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+      <p id="guest" class="display text-xl mt-1 text-[var(--gold-l)]">Tamu Undangan</p>
+    </div>
+    <button id="openBtn" class="btn solid"><i class="fa-regular fa-envelope-open"></i> Buka Undangan</button>
+  </div>
+</section>
+
+<!-- MUSIC -->
+<!-- Musik dibuat langsung oleh browser (lihat objek Music di script). Untuk lagu sendiri isi MUSIC_URL. -->
+<button id="musicBtn" aria-label="Putar atau jeda musik" class="fixed right-4 bottom-4 z-50 w-12 h-12 rounded-full bg-[var(--gold)] text-[var(--maroon-d)] shadow-lg hidden items-center justify-center"><i class="fa-solid fa-music"></i></button>
+<div id="toast" class="toast">Tersalin</div>
+
+<main>
+<!-- HERO -->
+<section class="songket min-h-screen flex flex-col items-center justify-center text-center px-6 relative">
+  <div class="absolute top-0 inset-x-0 band"></div>
+  <div class="reveal">
+    <svg class="w-60 sm:w-80 mx-auto"><use href="#gonjong"/></svg>
+    <div class="mx-auto mt-4 w-52 sm:w-60 aspect-[3/4] p-1.5 border border-[var(--gold)]" style="border-radius:999px 999px 0 0"><img id="heroImg" class="w-full h-full object-cover object-top" style="border-radius:999px 999px 0 0" alt="Sayid dan AA"></div>
+    <p class="italic text-xl mt-2">Kami akan menikah</p>
+    <h2 class="display gold-text text-5xl sm:text-7xl font-bold my-5">Sayid &amp; AA</h2>
+    <p class="display">15 · 11 · 2026</p>
+    <p class="max-w-lg mx-auto mt-6 italic">“Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan pasangan untukmu agar kamu merasa tenteram kepadanya.” <span class="not-italic block mt-1 text-[var(--gold-l)]">— QS. Ar-Rum: 21</span></p>
+  </div>
+</section>
+
+<!-- MEMPELAI -->
+<section class="py-20 px-6 bg-[var(--maroon-d)]">
+  <div class="max-w-4xl mx-auto text-center reveal">
+    <h3 class="display gold-text text-3xl mb-3">Mempelai</h3>
+    <p class="max-w-xl mx-auto mb-12">Dengan memohon rahmat dan ridho Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di hari bahagia kami.</p>
+    <div class="grid md:grid-cols-2 gap-10">
+      <div class="frame p-6">
+        <img class="w-44 h-44 object-cover rounded-full mx-auto border-2 border-[var(--gold)] p-1" src="FOTO_BASE64" alt="Sayid">
+        <h4 class="display text-2xl text-[var(--gold-l)] mt-5">Sayid</h4>
+        <p class="mt-2">Putri kedua dari<br>Bapak Rahmad Hidayat &amp; Ibu Nurhayati</p>
+        <a class="btn mt-5" href="https://instagram.com/" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> @sayid</a>
+      </div>
+      <div class="frame p-6">
+        <img class="w-44 h-44 object-cover rounded-full mx-auto border-2 border-[var(--gold)] p-1" src="FOTO_BASE64" alt="AA">
+        <h4 class="display text-2xl text-[var(--gold-l)] mt-5">AA</h4>
+        <p class="mt-2">Putra pertama dari<br>Bapak Hendra Wijaya &amp; Ibu Sri Lestari</p>
+        <a class="btn mt-5" href="https://instagram.com/" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> @aa</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COUNTDOWN -->
+<section class="songket py-20 px-6 text-center">
+  <div class="max-w-2xl mx-auto reveal">
+    <h3 class="display gold-text text-3xl mb-8">Menuju Hari Bahagia</h3>
+    <div id="cd" class="grid grid-cols-4 gap-3">
+      <div class="frame py-4"><div id="cd-d" class="display text-3xl sm:text-5xl text-[var(--gold-l)]">00</div><div class="text-sm">Hari</div></div>
+      <div class="frame py-4"><div id="cd-h" class="display text-3xl sm:text-5xl text-[var(--gold-l)]">00</div><div class="text-sm">Jam</div></div>
+      <div class="frame py-4"><div id="cd-m" class="display text-3xl sm:text-5xl text-[var(--gold-l)]">00</div><div class="text-sm">Menit</div></div>
+      <div class="frame py-4"><div id="cd-s" class="display text-3xl sm:text-5xl text-[var(--gold-l)]">00</div><div class="text-sm">Detik</div></div>
+    </div>
+    <a id="calBtn" class="btn mt-8" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pernikahan+Sayid+%26+AA&dates=20261115T010000Z/20261115T080000Z&location=Gedung+Balairung+Minang+Padang"><i class="fa-regular fa-calendar-plus"></i> Simpan ke Kalender</a>
+  </div>
+</section>
+
+<!-- ACARA -->
+<section class="py-20 px-6 bg-[var(--maroon-d)]">
+  <div class="max-w-4xl mx-auto text-center">
+    <h3 class="display gold-text text-3xl mb-12 reveal">Rangkaian Acara</h3>
+    <div class="grid md:grid-cols-2 gap-10">
+      <div class="frame p-8 reveal">
+        <i class="fa-solid fa-mosque text-3xl text-[var(--gold)]"></i>
+        <h4 class="display text-2xl text-[var(--gold-l)] mt-3">Akad Nikah</h4>
+        <p class="mt-3">Minggu, 15 November 2026<br>Pukul 08.00 – 10.00 WIB</p>
+        <p class="mt-3 italic">Masjid Raya Al-Hidayah<br>Jl. Sudirman No. 10, Padang</p>
+        <a class="btn mt-5" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Masjid+Raya+Sumatera+Barat"><i class="fa-solid fa-location-dot"></i> Petunjuk Peta</a>
+      </div>
+      <div class="frame p-8 reveal">
+        <i class="fa-solid fa-landmark text-3xl text-[var(--gold)]"></i>
+        <h4 class="display text-2xl text-[var(--gold-l)] mt-3">Resepsi</h4>
+        <p class="mt-3">Minggu, 15 November 2026<br>Pukul 11.00 – 14.00 WIB</p>
+        <p class="mt-3 italic">Gedung Balairung Minang<br>Jl. Khatib Sulaiman No. 21, Padang</p>
+        <a class="btn mt-5" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Rumah+Gadang+Padang"><i class="fa-solid fa-location-dot"></i> Petunjuk Peta</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERI -->
+<section class="songket py-20 px-4">
+  <div class="max-w-5xl mx-auto">
+    <h3 class="display gold-text text-3xl text-center mb-10 reveal">Galeri Prewedding</h3>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 reveal">
+      <div class="gal overflow-hidden border border-[var(--gold)] md:row-span-2"><img id="galMain" class="w-full h-full object-cover" src="FOTO_BASE64" alt="Sayid dan AA"></div>
+      <div class="gal overflow-hidden border border-[var(--gold)] aspect-square"><img class="w-full h-full object-cover" loading="lazy" src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=500&q=80" alt="Prewedding 2"></div>
+      <div class="gal overflow-hidden border border-[var(--gold)] aspect-square"><img class="w-full h-full object-cover" loading="lazy" src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=500&q=80" alt="Prewedding 3"></div>
+      <div class="gal overflow-hidden border border-[var(--gold)] aspect-square"><img class="w-full h-full object-cover" loading="lazy" src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=500&q=80" alt="Prewedding 4"></div>
+      <div class="gal overflow-hidden border border-[var(--gold)] aspect-square"><img class="w-full h-full object-cover" loading="lazy" src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=500&q=80" alt="Prewedding 5"></div>
+    </div>
+  </div>
+</section>
+
+<!-- HADIAH -->
+<section class="py-20 px-6 bg-[var(--maroon-d)]">
+  <div class="max-w-4xl mx-auto text-center">
+    <h3 class="display gold-text text-3xl mb-3 reveal">Amplop Digital</h3>
+    <p class="max-w-xl mx-auto mb-10 reveal">Doa restu Anda adalah hadiah terindah. Bila ingin berbagi tanda kasih, dapat melalui:</p>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="frame p-6 reveal">
+        <i class="fa-solid fa-building-columns text-2xl text-[var(--gold)]"></i>
+        <h4 class="display text-xl text-[var(--gold-l)] mt-2">BCA</h4>
+        <p id="rek1" class="display text-xl mt-3">1234567890</p>
+        <p class="text-sm">a.n. Sayid</p>
+        <button class="btn mt-4" data-copy="rek1"><i class="fa-regular fa-copy"></i> Salin No. Rekening</button>
+      </div>
+      <div class="frame p-6 reveal">
+        <i class="fa-solid fa-building-columns text-2xl text-[var(--gold)]"></i>
+        <h4 class="display text-xl text-[var(--gold-l)] mt-2">Mandiri</h4>
+        <p id="rek2" class="display text-xl mt-3">1120009876543</p>
+        <p class="text-sm">a.n. AA</p>
+        <button class="btn mt-4" data-copy="rek2"><i class="fa-regular fa-copy"></i> Salin No. Rekening</button>
+      </div>
+      <div class="frame p-6 reveal">
+        <i class="fa-solid fa-qrcode text-2xl text-[var(--gold)]"></i>
+        <h4 class="display text-xl text-[var(--gold-l)] mt-2">QRIS</h4>
+        <!-- Ganti dengan gambar QRIS asli: <img src="qris.png"> -->
+        <div class="bg-white mx-auto mt-3 w-36 h-36 grid place-items-center text-[var(--maroon-d)]"><i class="fa-solid fa-qrcode text-[7rem]"></i></div>
+        <p class="text-sm mt-2">Pindai dengan e-wallet / m-banking</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RSVP -->
+<section class="songket py-20 px-6">
+  <div class="max-w-xl mx-auto reveal">
+    <h3 class="display gold-text text-3xl text-center mb-8">Ucapan &amp; Konfirmasi</h3>
+    <form id="rsvp" class="frame p-6 space-y-4">
+      <input id="fName" required maxlength="40" placeholder="Nama Anda">
+      <select id="fAtt" required>
+        <option value="Hadir">Insya Allah, saya hadir</option>
+        <option value="Tidak Hadir">Mohon maaf, saya berhalangan</option>
+        <option value="Masih Ragu">Belum pasti</option>
+      </select>
+      <textarea id="fMsg" required rows="4" maxlength="300" placeholder="Tulis ucapan dan doa"></textarea>
+      <button class="btn solid w-full justify-center" type="submit"><i class="fa-regular fa-paper-plane"></i> Kirim Ucapan</button>
+    </form>
+    <div id="wishes" class="mt-8 space-y-3 max-h-96 overflow-y-auto pr-1"></div>
+  </div>
+</section>
+
+<!-- PENUTUP -->
+<footer class="py-16 px-6 text-center bg-[var(--maroon-d)] relative">
+  <div class="absolute top-0 inset-x-0 band"></div>
+  <svg class="w-56 mx-auto"><use href="#gonjong"/></svg>
+  <p class="max-w-md mx-auto mt-4">Merupakan kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.</p>
+  <p class="italic mt-5">Hormat kami,</p>
+  <p class="display gold-text text-3xl mt-1">Sayid &amp; AA</p>
+</footer>
+</main>
+
+<div id="lb" class="fixed inset-0 z-[70] hidden items-center justify-center bg-black/90 p-4" role="dialog" aria-label="Foto">
+  <button id="lbX" aria-label="Tutup" class="absolute top-4 right-4 text-3xl text-[var(--gold-l)] p-2"><i class="fa-solid fa-xmark"></i></button>
+  <button id="lbP" aria-label="Sebelumnya" class="absolute left-2 text-3xl text-[var(--gold-l)] p-3"><i class="fa-solid fa-chevron-left"></i></button>
+  <img id="lbImg" class="max-h-[85vh] max-w-full border border-[var(--gold)]" alt="">
+  <button id="lbN" aria-label="Berikutnya" class="absolute right-2 text-3xl text-[var(--gold-l)] p-3"><i class="fa-solid fa-chevron-right"></i></button>
+</div>
+<script>
+const $=s=>document.querySelector(s), mbtn=$('#musicBtn');
+
+/* ===== Musik latar: instrumental romantis (pad hangat + petikan talempong + seruling) ===== */
+const MUSIC_URL=''; // isi mis. 'lagu.mp3' bila ingin memakai lagu sendiri
+const Music=(()=>{
+  let ctx,master,verb,timer,next=0,bar=0,on=false,el=null;
+  const f=m=>440*Math.pow(2,(m-69)/12), spb=60/72;
+  const CH=[[57,60,64,69],[53,57,60,65],[55,60,64,67],[55,59,62,67]]; // Am F C G
+  const MEL=[
+    [[0,76,1.5],[1.5,74,.5],[2,72,1],[3,69,1]],
+    [[0,72,1],[1,69,1],[2,72,1.5],[3.5,74,.5]],
+    [[0,76,1.5],[1.5,79,.5],[2,76,1],[3,74,1]],
+    [[0,74,1],[1,71,1],[2,69,1],[3,67,1]],
+    [[0,81,1.5],[1.5,79,.5],[2,76,2]],
+    [[0,77,1],[1,76,1],[2,72,2]],
+    [[0,79,1.5],[1.5,76,.5],[2,74,1],[3,76,1]],
+    [[0,74,2],[2,71,1],[3,74,1]]];
+  const ARP=[0,2,1,3,2,3,1,2];
+  function build(){
+    ctx=new (window.AudioContext||window.webkitAudioContext)();
+    master=ctx.createGain(); master.gain.value=0;
+    const comp=ctx.createDynamicsCompressor();
+    master.connect(comp); comp.connect(ctx.destination);
+    // reverb sintetis
+    const len=ctx.sampleRate*3, ir=ctx.createBuffer(2,len,ctx.sampleRate);
+    for(let c=0;c<2;c++){const d=ir.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.6)}
+    verb=ctx.createConvolver(); verb.buffer=ir;
+    const wet=ctx.createGain(); wet.gain.value=.55; verb.connect(wet); wet.connect(master);
+  }
+  function env(t,a,d,r,vol){
+    const g=ctx.createGain();
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+a);
+    g.gain.setValueAtTime(vol,t+Math.max(a,d)); g.gain.linearRampToValueAtTime(0,t+d+r);
+    return g;
+  }
+  function osc(type,freq,t,stop,g,det=0){
+    const o=ctx.createOscillator(); o.type=type; o.frequency.value=freq; o.detune.value=det;
+    o.connect(g); o.start(t); o.stop(stop); return o;
+  }
+  function pad(t,notes){
+    notes.forEach(m=>{
+      const g=env(t,1.2,4*spb,1.8,.045); g.connect(master); g.connect(verb);
+      osc('triangle',f(m),t,t+4*spb+2,g,-6); osc('sine',f(m),t,t+4*spb+2,g,6);
+    });
+    const b=env(t,.05,4*spb-.2,.6,.2); b.connect(master);
+    osc('sine',f(notes[0]-12),t,t+4*spb+1,b);
+  }
+  function pluck(t,m,vol){
+    const g=ctx.createGain(); g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(.0008,t+1.4);
+    g.connect(master); g.connect(verb);
+    osc('triangle',f(m),t,t+1.5,g); osc('sine',f(m)*2.01,t,t+.5,g);
+  }
+  function flute(t,m,beats){
+    const d=beats*spb, g=env(t,.12,d,.35,.13), lp=ctx.createBiquadFilter();
+    lp.type='lowpass'; lp.frequency.value=2800; g.connect(lp); lp.connect(master); lp.connect(verb);
+    const o=osc('sine',f(m),t,t+d+.5,g), o2=osc('triangle',f(m),t,t+d+.5,g,4);
+    const l=ctx.createOscillator(), lg=ctx.createGain(); l.frequency.value=5.2; lg.gain.value=7;
+    l.connect(lg); lg.connect(o.detune); lg.connect(o2.detune); l.start(t+.25); l.stop(t+d+.5);
+  }
+  function sched(t,b){
+    const c=CH[b%4]; pad(t,c);
+    ARP.forEach((i,k)=>pluck(t+k*spb/2,c[i]+12,k%2?.07:.1));
+    (MEL[b%8]||[]).forEach(([s,m,d])=>flute(t+s*spb,m,d));
+  }
+  function tick(){ while(next<ctx.currentTime+1.6){ sched(next,bar++); next+=4*spb } }
+  const ui=p=>mbtn.classList.toggle('animate-spin',p);
+  return{
+    start(){
+      on=true; ui(true);
+      if(MUSIC_URL){ el=new Audio(MUSIC_URL); el.loop=true; el.volume=.6; el.play().catch(()=>{}); return }
+      if(!ctx) build();
+      ctx.resume(); next=ctx.currentTime+.15; bar=0; tick(); timer=setInterval(tick,400);
+      master.gain.cancelScheduledValues(ctx.currentTime); master.gain.linearRampToValueAtTime(.75,ctx.currentTime+3);
+    },
+    toggle(){
+      if(el){ on?el.pause():el.play(); on=!on; ui(on); return }
+      if(!ctx) return;
+      if(on){ master.gain.linearRampToValueAtTime(0,ctx.currentTime+.6); setTimeout(()=>ctx.suspend(),650) }
+      else { ctx.resume(); master.gain.linearRampToValueAtTime(.75,ctx.currentTime+1.5) }
+      on=!on; ui(on);
+    }
+  };
+})();
+
+$('#heroImg').src=$('#galMain').src;
+// Nama tamu dari URL: ?to=Nama+Tamu
+const to=new URLSearchParams(location.search).get('to'); if(to) $('#guest').textContent=to;
+
+// Buka undangan
+$('#openBtn').addEventListener('click',()=>{
+  $('#cover').classList.add('open'); document.body.classList.remove('locked');
+  mbtn.classList.replace('hidden','flex');
+  Music.start();
+  setTimeout(()=>{$('#cover').style.display='none';observe()},1200);
+  window.scrollTo(0,0);
+});
+mbtn.addEventListener('click',()=>Music.toggle());
+
+// Reveal saat scroll
+function observe(){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}}),{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+}
+
+// Lightbox galeri
+const gimgs=[...document.querySelectorAll('.gal img')]; let gi=0;
+const big=s=>s.replace(/w=\d+/,'w=
